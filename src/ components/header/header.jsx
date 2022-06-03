@@ -9,7 +9,7 @@ function Header() {
             <Link to="/responsible_employees">Ответственные сотрудники</Link>
             <Link to="/responsible_employees">Сообщить о краже</Link>
             <Link to="/all_thefts">Список краж</Link>
-            <Link to="/responsible_employees">Авторизация</Link>
+            <Link to="/registration">Авторизация</Link>
             <Link to="/responsible_employees">Регистрация</Link>
 
         </nav>

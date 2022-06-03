@@ -8,6 +8,7 @@ import Employees from "./ components/responsible_employees/responsible_employees
 import css from './App.css'
 import AllThefts from "./ components/all_thefts/all_thefts";
 import ResponsibleEmployeesDetails from "./ components/responsible_employees_ details/responsible_employees_ details";
+import Registration from "./ components/registration/registration";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
 
                 <Route path="/all_thefts" element={<AllThefts/>}/>
+                <Route path="/registration" element={<Registration/>}/>
                 <Route
                     path="*"
                     element={

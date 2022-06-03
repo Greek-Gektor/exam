@@ -14,6 +14,7 @@ function ResponsibleEmployeesDetails() {
 
     const employeeId = parseInt(params.employeesId, 10)
 
+
     const employee = resEmployees.find(task => task.id === employeeId)
 
 
