@@ -1,78 +1,120 @@
-
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {postAdded} from "../../storage/counterSlise";
-import { nanoid } from '@reduxjs/toolkit'
+import {responsibleEmployeesAdded, regNewOfficer} from "../../storage/counterSlise";
+import {nanoid} from '@reduxjs/toolkit'
 
-/*import css from "./registration.module.css;*/
+import css from './registration.module.css'
 
 
 function Registration() {
 
 
+    const {status, error} = useSelector(state => state.bicycles);
+    /* const [title, setTitle] = useState('')
+     const [content, setContent] = useState('')*/
 
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
+
 
     const dispatch = useDispatch()
 
-    const [sotr, setSotr] = useState({})
+    const [officer, setOfficer] = useState(
+        {
+            email: '',
+            password: '',
+            clientId: '',
+            firstName: '',
+            lastName: '',
+            approved: '',
+        }
+    )
 
 
-
-
-
-
-
-
-
-    const onTitleChanged = (e) => setTitle(e.target.value)
-    const onContentChanged = (e) => setContent(e.target.value)
-
-
+    const onEmailChanged = (e) => setOfficer(officer => ({...officer, email: e.target.value}))
+    const onPasswordChanged = (e) => setOfficer(officer => ({...officer, password: e.target.value}))
+    const onClientIdChanged = (e) => setOfficer(officer => ({...officer, clientId: e.target.value}))
+    const onFirstNameChanged = (e) => setOfficer(officer => ({...officer, firstName: e.target.value}))
+    const onLastNameChanged = (e) => setOfficer(officer => ({...officer, lastName: e.target.value}))
 
     const onSavePostClicked = () => {
-        if (title && content) {
-            setSotr({
 
-                id:Date.now(),
-                email: 'email',
-                firstName: title,
-                lastName: content,
-                password: 'password',
-                clientId: 'clientId',
-                approved: true
+        if (officer.email) {
+            setOfficer(
+                {
+                    email: officer.email,
+                    password: officer.password,
+                    clientId: officer.clientId,
+                    firstName: officer.firstName,
+                    lastName: officer.lastName,
+                    approved: true,
 
+                }
+            )
+
+            dispatch(regNewOfficer({officer}))
+
+            setOfficer({
+                email: '',
+                password: '',
+                clientId: '',
+                firstName: '',
+                lastName: '',
+                approved: '',
             })
-            dispatch(postAdded(sotr))
 
-            setTitle('')
-            setContent('')
-            console.log(sotr)
         }
+        console.log(officer)
     }
 
     return (
-        <section>
-            <h2>Add a New Post</h2>
-            <form>
-                <label htmlFor="postTitle">Post Title:</label>
+        <section className={css.wrapper}>
+            <h2>Registration</h2>
+            {status === 'loading' && <h2>Loading...</h2>}
+            {error && <h2>An error occured: {error}</h2>}
+            <form className={css.registrationForm}>
+                <label htmlFor="postTitle">Email:</label>
                 <input
                     type="text"
                     id="postTitle"
                     name="postTitle"
-                    value={title}
-                    onChange={onTitleChanged}
+                    value={officer.email}
+                    onChange={onEmailChanged}
                 />
-                <label htmlFor="postContent">Content:</label>
-                <textarea
-                    id="postContent"
-                    name="postContent"
-                    value={content}
-                    onChange={onContentChanged}
+                <label htmlFor="postTitle">Password</label>
+                <input
+                    type="text"
+                    id="postTitle"
+                    name="postTitle"
+                    value={officer.password}
+                    onChange={onPasswordChanged}
                 />
-                <button type="button" onClick={onSavePostClicked}>
-                    Save Post
+                <label htmlFor="postTitle">Client ID</label>
+                <input
+                    type="text"
+                    id="postTitle"
+                    name="postTitle"
+                    value={officer.clientId}
+                    onChange={onClientIdChanged}
+                />
+
+                <label htmlFor="postTitle">FirstName:</label>
+                <input
+                    type="text"
+                    id="postTitle"
+                    name="postTitle"
+                    value={officer.firstName}
+                    onChange={onFirstNameChanged}
+                />
+                <label htmlFor="postTitle">LastName:</label>
+                <input
+                    type="text"
+                    id="postTitle"
+                    name="postTitle"
+                    value={officer.lastName}
+                    onChange={onLastNameChanged}
+                />
+
+                <button className={css.registrationFormBtn} type="button" onClick={onSavePostClicked}>
+                    Registration
                 </button>
             </form>
         </section>

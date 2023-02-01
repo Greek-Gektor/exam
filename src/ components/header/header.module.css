@@ -1,9 +1,8 @@
 
 
 .wrapper{
-    display: flex;
     height: 100px;
-    width: 100%;
+    display: flex;
     background: #20232a;
     align-items: center;
     justify-content: space-around;

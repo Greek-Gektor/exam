@@ -1,5 +1,6 @@
 
 .wrapper{
-    display: flex;
-    flex: 1 1 auto;
+    flex-grow: 1;
+    /*display: flex;*/
+    background-color: #B69DFA;
 }

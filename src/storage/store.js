@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from "./counterSlise";
+import bicyclesReducer from "./counterSlise";
 
 
 export default configureStore({
     reducer: {
-        counter: counterReducer
+        bicycles: bicyclesReducer
     }
 })

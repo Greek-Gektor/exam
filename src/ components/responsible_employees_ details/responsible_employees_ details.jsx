@@ -8,7 +8,7 @@ import css from './responsible_employees_ details.module.css'
 
 function ResponsibleEmployeesDetails() {
 
-    const resEmployees = useSelector((state) => state.counter.responsibleEmployees)
+    const resEmployees = useSelector((state) => state.bicycles.responsibleEmployees)
 
     const params = useParams();
 

@@ -6,7 +6,7 @@ import css from './responsible_employees.module.css'
 
 function Employees() {
 
-    const resEmployees = useSelector((state) => state.counter.responsibleEmployees)
+    const resEmployees = useSelector((state) => state.bicycles.responsibleEmployees)
 
     return (
         <div>
