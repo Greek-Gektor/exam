@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {responsibleEmployeesAdded, regNewOfficer} from "../../storage/counterSlise";
-import {nanoid} from '@reduxjs/toolkit'
+import { regNewOfficer} from "../../storage/counterSlise";
+/*import {nanoid} from '@reduxjs/toolkit'*/
 
 import css from './registration.module.css'
 
@@ -10,9 +10,6 @@ function Registration() {
 
 
     const {status, error} = useSelector(state => state.bicycles);
-    /* const [title, setTitle] = useState('')
-     const [content, setContent] = useState('')*/
-
 
 
     const dispatch = useDispatch()
@@ -35,11 +32,10 @@ function Registration() {
     const onFirstNameChanged = (e) => setOfficer(officer => ({...officer, firstName: e.target.value}))
     const onLastNameChanged = (e) => setOfficer(officer => ({...officer, lastName: e.target.value}))
 
-    const onSavePostClicked = () => {
+    const onSavePostClicked = async () => {
 
         if (officer.email) {
-            setOfficer(
-                {
+            setOfficer({
                     email: officer.email,
                     password: officer.password,
                     clientId: officer.clientId,
@@ -50,7 +46,7 @@ function Registration() {
                 }
             )
 
-            dispatch(regNewOfficer({officer}))
+            await dispatch(regNewOfficer({officer}))
 
             setOfficer({
                 email: '',
@@ -62,7 +58,6 @@ function Registration() {
             })
 
         }
-        console.log(officer)
     }
 
     return (
@@ -71,44 +66,44 @@ function Registration() {
             {status === 'loading' && <h2>Loading...</h2>}
             {error && <h2>An error occured: {error}</h2>}
             <form className={css.registrationForm}>
-                <label htmlFor="postTitle">Email:</label>
+                <label htmlFor="Email">Email:</label>
                 <input
                     type="text"
-                    id="postTitle"
-                    name="postTitle"
+                    id="Email"
+                    name="Email"
                     value={officer.email}
                     onChange={onEmailChanged}
                 />
-                <label htmlFor="postTitle">Password</label>
+                <label htmlFor="Password">Password</label>
                 <input
                     type="text"
-                    id="postTitle"
-                    name="postTitle"
+                    id="Password"
+                    name="Password"
                     value={officer.password}
                     onChange={onPasswordChanged}
                 />
-                <label htmlFor="postTitle">Client ID</label>
+                <label htmlFor="Client ID">Client ID</label>
                 <input
                     type="text"
-                    id="postTitle"
-                    name="postTitle"
+                    id="Client ID"
+                    name="Client ID"
                     value={officer.clientId}
                     onChange={onClientIdChanged}
                 />
 
-                <label htmlFor="postTitle">FirstName:</label>
+                <label htmlFor="FirstName">FirstName:</label>
                 <input
                     type="text"
-                    id="postTitle"
-                    name="postTitle"
+                    id="FirstName"
+                    name="FirstName"
                     value={officer.firstName}
                     onChange={onFirstNameChanged}
                 />
-                <label htmlFor="postTitle">LastName:</label>
+                <label htmlFor="LastName">LastName:</label>
                 <input
                     type="text"
-                    id="postTitle"
-                    name="postTitle"
+                    id="LastName"
+                    name="LastName"
                     value={officer.lastName}
                     onChange={onLastNameChanged}
                 />

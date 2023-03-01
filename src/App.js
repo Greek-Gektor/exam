@@ -10,6 +10,7 @@ import AllThefts from "./ components/all_thefts/all_thefts";
 import ResponsibleEmployeesDetails from "./ components/responsible_employees_ details/responsible_employees_ details";
 import Registration from "./ components/registration/registration";
 import Authorization from "./ components/authorization/authorization";
+import ReportATheft from "./ components/report_a_theft/report_a_theft";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
                 <Route path="responsible_employees/:employeesId" element={<ResponsibleEmployeesDetails/>}/>
 
 
-
+                <Route path="/report_a_theft" element={<ReportATheft/>}/>
                 <Route path="/all_thefts" element={<AllThefts/>}/>
                 <Route path="/authorization" element={<Authorization/>}/>
                 <Route path="/registration" element={<Registration/>}/>
