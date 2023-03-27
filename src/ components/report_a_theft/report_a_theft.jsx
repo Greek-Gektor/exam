@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {} from "../../storage/counterSlise";
+import {CreateCaseFromOfficer,CreateCaseFromClient} from "../../storage/counterSlise";
 
 
 import css from './report_a_theft.module.css'
@@ -8,7 +8,7 @@ import css from './report_a_theft.module.css'
 
 function ReportATheft() {
 
-    const {authStatus} = useSelector(state => state.bicycles);
+    const {status, error, authStatus} = useSelector(state => state.bicycles);
 
     const [theftCase, setTheftCase] = useState(
         {
@@ -35,9 +35,62 @@ function ReportATheft() {
     const onDescriptionChanged = (e) => setTheftCase(theftCase => ({...theftCase, description: e.target.value}))
 
 
+    const onOfficerReportClicked = async () => {
+        setTheftCase({
+            ownerFullName: theftCase.ownerFullName,
+            licenseNumber: theftCase.licenseNumber,
+            type: theftCase.type,
+            color: theftCase.color,
+            date: theftCase.date,
+            officerID: theftCase.officerID,
+            clientID: theftCase.clientID,
+            description: theftCase.description
+            }
+        )
+        await dispatch(CreateCaseFromOfficer({theftCase}))
+        setTheftCase({
+            ownerFullName: '',
+            licenseNumber: '',
+            type: '',
+            color: '',
+            date: '',
+            officerID: '',
+            clientID: '',
+            description: ''
+        })
+    }
+
+    const onClientReportClicked = async () => {
+        setTheftCase({
+                ownerFullName: theftCase.ownerFullName,
+                licenseNumber: theftCase.licenseNumber,
+                type: theftCase.type,
+                color: theftCase.color,
+                date: theftCase.date,
+                officerID: theftCase.officerID,
+                clientID: theftCase.clientID,
+                description: theftCase.description
+            }
+        )
+        await dispatch(CreateCaseFromClient({theftCase}))
+        setTheftCase({
+            ownerFullName: '',
+            licenseNumber: '',
+            type: '',
+            color: '',
+            date: '',
+            officerID: '',
+            clientID: '',
+            description: ''
+        })
+    }
+
+
     return (
         <section className={css.wrapper}>
             <h2>Report a theft</h2>
+            {status === 'loading' && <h2>Loading...</h2>}
+            {error && <h2>An error occured: {error}</h2>}
             <form className={css.reportATheftForm}>
                 <label htmlFor="ownerFullName">Owner Full Name:</label>
                 <input
@@ -109,12 +162,12 @@ function ReportATheft() {
                 />
 
                 {authStatus === true &&
-                <button className={css.authorizationFormBtn} type="button" onClick={""}>
+                <button className={css.authorizationFormBtn} type="button" onClick={onOfficerReportClicked}>
                     Officer Report
                 </button>
                 }
                 {authStatus === false &&
-                <button className={css.authorizationFormBtn} type="button" onClick={""}>
+                <button className={css.authorizationFormBtn} type="button" onClick={onClientReportClicked}>
                     Public Report
                 </button>
                 }
