@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY3OTMzMjQ0NiwiZXhwIjoxNjc5OTM3MjQ2fQ.Y7xdwRIsnXBpgL4nbIzNrffk9SsBaUQFIt_nK16yFXk"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY3OTk4MzQ0NywiZXhwIjoxNjgwNTg4MjQ3fQ.nRW6kIybjZMxao7e6J0JzUPZhTr7UD_tQlOT03LVbrM"))
 
 export const regNewOfficer = createAsyncThunk(
     'bicycles/regNewOfficer',
@@ -150,6 +150,35 @@ export const CreateCaseFromClient = createAsyncThunk(
     }
 );
 
+export const fetchListOfThefts = createAsyncThunk(
+    'bicycles/fetchListOfThefts',
+    async function(_, {rejectWithValue}) {
+        try {
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch('https://sf-final-project-be.herokuapp.com/api/cases/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Server Error!');
+            }
+
+            const data = await response.json();
+
+            console.log(data)
+
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 
 const setError = (state, action) => {
     state.status = 'rejected';
@@ -164,24 +193,11 @@ const initialState = {
     status: null,
     error: null,
     value: 0,
-    token:,
+    token:'',
     authStatus: true,
-    authOfficerNow: "",
+    authOfficerNow: '',
     responsibleEmployees: [],
-    theftReports: [{
-        status: 'status',
-        licenseNumber: 'licenseNumber',
-        type: 'sport',
-        ownerFullName: 'ownerFullName',
-        clientId: '1',
-        createdAt: 'date',
-        updatedAt: 'date',
-        color: 'color',
-        date: 'date',
-        officer: 'officer',
-        description: 'Че за кража',
-        resolution: 'resolution',
-    }],
+    theftReports: [],
 
 }
 
@@ -193,7 +209,6 @@ export const bicyclesSlice = createSlice({
                 state.responsibleEmployees.push(action.payload)
             },
             authOfficerReducer(state, action) {
-                state.token = window.localStorage.setItem('token', JSON.stringify(action.payload.data.token))
                 state.authStatus = true
                 state.authOfficerNow = action.payload.data.user.email
                 console.log(state.authOfficerNow)
@@ -219,6 +234,15 @@ export const bicyclesSlice = createSlice({
                 state.status = 'resolved';
             },
             [regNewOfficer.rejected]: setError,
+            [fetchListOfThefts.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [fetchListOfThefts.fulfilled]: (state,action) => {
+                state.status = 'resolved';
+                state.theftReports = action.payload.data;
+            },
+            [fetchListOfThefts.rejected]: setError,
 
         }
     }
