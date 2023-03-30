@@ -11,6 +11,7 @@ import ResponsibleEmployeesDetails from "./ components/responsible_employees_ de
 import Registration from "./ components/registration/registration";
 import Authorization from "./ components/authorization/authorization";
 import ReportATheft from "./ components/report_a_theft/report_a_theft";
+import SingleTheftsPage from "./ components/single_thefts_page/single_thefts_page";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/all_thefts" element={<AllThefts/>}/>
                 <Route path="/authorization" element={<Authorization/>}/>
                 <Route path="/registration" element={<Registration/>}/>
+                <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
                 <Route
                     path="*"
                     element={

@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY3OTk4MzQ0NywiZXhwIjoxNjgwNTg4MjQ3fQ.nRW6kIybjZMxao7e6J0JzUPZhTr7UD_tQlOT03LVbrM"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MDE0MDUwNSwiZXhwIjoxNjgwNzQ1MzA1fQ.-jvY8U4IN0eS-Cyvt0FDBWDWWorLq6ohMwn2NLHJelU"))
 
 export const regNewOfficer = createAsyncThunk(
     'bicycles/regNewOfficer',
@@ -161,7 +161,7 @@ export const fetchListOfThefts = createAsyncThunk(
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token,
-                },
+                }
             });
 
             if (!response.ok) {
@@ -179,14 +179,46 @@ export const fetchListOfThefts = createAsyncThunk(
     }
 );
 
+export const getSingleTheft = createAsyncThunk(
+    'bicycles/getSingleTheft',
+    async function ({theft}, {rejectWithValue, dispatch}) {
+        try {
+            const id = theft._id
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Can\'t reg officer. Server error.');
+            }
+
+            const data = await response.json();
+
+            console.log(data)
+
+            return data;
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 
 const setError = (state, action) => {
     state.status = 'rejected';
     state.error = action.payload;
 }
 
-/*window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY3OTMzMjQ0NiwiZXhwIjoxNjc5OTM3MjQ2fQ.Y7xdwRIsnXBpgL4nbIzNrffk9SsBaUQFIt_nK16yFXk"))
-const chepuh = JSON.parse(window.localStorage.getItem('token'))*/
+
 
 const initialState = {
     
@@ -198,6 +230,7 @@ const initialState = {
     authOfficerNow: '',
     responsibleEmployees: [],
     theftReports: [],
+    singleTheftReport:{}
 
 }
 
@@ -213,7 +246,6 @@ export const bicyclesSlice = createSlice({
                 state.authOfficerNow = action.payload.data.user.email
                 console.log(state.authOfficerNow)
                 console.log(action.payload)
-                console.log(window.localStorage.getItem('token'))
                 console.log(state.authStatus)
             },
             exitAuthOfficerReducer(state) {
@@ -243,6 +275,16 @@ export const bicyclesSlice = createSlice({
                 state.theftReports = action.payload.data;
             },
             [fetchListOfThefts.rejected]: setError,
+            [getSingleTheft.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [getSingleTheft.fulfilled]: (state,action) => {
+                state.status = 'resolved';
+                state.singleTheftReport = action.payload.data;
+                console.log(state.singleTheftReport)
+            },
+            [getSingleTheft.rejected]: setError,
 
         }
     }
@@ -252,3 +294,6 @@ export const bicyclesSlice = createSlice({
 export const {responsibleEmployeesAdded, authOfficerReducer, exitAuthOfficerReducer} = bicyclesSlice.actions
 
 export default bicyclesSlice.reducer
+
+export const selectTheftById = (state, theftId) =>
+    state.bicycles.theftReports.find((theft) => theft._id === theftId)

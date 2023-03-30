@@ -1,28 +1,25 @@
 import React, {useEffect} from 'react';
 import css from './all_thefts.module.css'
-import { useSelector, useDispatch } from 'react-redux'
-import AllTheftsDetails from "../all_thefts_ details/all_thefts_ details";
+import {useSelector, useDispatch} from 'react-redux'
 import {fetchListOfThefts} from "../../storage/counterSlise";
-
-
-
+import AllTheftsItem from "../all_thefts_item/all_thefts_item";
 
 
 function AllThefts() {
 
- const thefts = useSelector(state => state.bicycles.theftReports)
+    const thefts = useSelector(state => state.bicycles.theftReports)
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect( () => {
         dispatch(fetchListOfThefts());
     }, []);
 
     return (
         <section className={css.wrapper}>
-            <ul >
+            <ul>
                 {thefts.map((theft) => (
-                    <AllTheftsDetails
-                        key={theft.id}
+                    <AllTheftsItem
+                        key={theft._id}
                         {...theft}
                     />
                 ))}
