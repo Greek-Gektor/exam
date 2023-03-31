@@ -12,7 +12,7 @@ function AllThefts() {
 
     useEffect( () => {
         dispatch(fetchListOfThefts());
-    }, []);
+    }, [dispatch]);
 
     return (
         <section className={css.wrapper}>

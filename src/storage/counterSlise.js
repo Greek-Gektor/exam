@@ -103,7 +103,6 @@ export const CreateCaseFromOfficer = createAsyncThunk(
             }
 
             const data = await response.json();
-            console.log(data)
 
 
         } catch (error) {
@@ -169,7 +168,6 @@ export const fetchListOfThefts = createAsyncThunk(
             }
 
             const data = await response.json();
-
             console.log(data)
 
             return data;
@@ -181,9 +179,9 @@ export const fetchListOfThefts = createAsyncThunk(
 
 export const getSingleTheft = createAsyncThunk(
     'bicycles/getSingleTheft',
-    async function ({theft}, {rejectWithValue, dispatch}) {
+    async function ({_Id,setTheftItem}, {rejectWithValue, dispatch}) {
         try {
-            const id = theft._id
+            const id = _Id
             const token = JSON.parse(window.localStorage.getItem('token'))
 
 
@@ -196,14 +194,41 @@ export const getSingleTheft = createAsyncThunk(
 
 
             if (!response.ok) {
-                throw new Error('Can\'t reg officer. Server error.');
+                throw new Error('Can\'t get case. Server error.');
             }
 
             const data = await response.json();
-
-            console.log(data)
-
+            setTheftItem(data.data)
             return data;
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const deleteTheft = createAsyncThunk(
+    'bicycles/deleteTheft',
+    async function ({_id}, {rejectWithValue, dispatch}) {
+        try {
+            const id = _id
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t delete case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
 
 
         } catch (error) {
@@ -282,9 +307,19 @@ export const bicyclesSlice = createSlice({
             [getSingleTheft.fulfilled]: (state,action) => {
                 state.status = 'resolved';
                 state.singleTheftReport = action.payload.data;
-                console.log(state.singleTheftReport)
             },
             [getSingleTheft.rejected]: setError,
+            [deleteTheft.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [deleteTheft.fulfilled]: (state,action,) => {
+                state.status = 'resolved';
+                state.theftReports = state.theftReports.filter(theft => theft.id !== action.payload);
+                console.log(state.theftReports)
+            },
+            [deleteTheft.rejected]: setError,
+
 
         }
     }
@@ -295,5 +330,6 @@ export const {responsibleEmployeesAdded, authOfficerReducer, exitAuthOfficerRedu
 
 export default bicyclesSlice.reducer
 
+/*
 export const selectTheftById = (state, theftId) =>
-    state.bicycles.theftReports.find((theft) => theft._id === theftId)
+    state.bicycles.theftReports.find((theft) => theft._id === theftId)*/

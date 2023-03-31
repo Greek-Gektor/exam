@@ -1,6 +1,6 @@
 
 .footer{
-    height: 100px;
+    min-height: 100px;
     display: flex;
     background: #20232a;
     align-items: center;

@@ -2,9 +2,16 @@ import React from 'react';
 import css from './all_thefts_item.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link} from "react-router-dom";
+import {deleteTheft, } from "../../storage/counterSlise";
 
 
 function AllTheftsItem({color, description, licenseNumber, ownerFullName, status, type,_id}) {
+
+    const dispatch = useDispatch()
+
+    const onDeleteTheft = async () => {
+        await dispatch(deleteTheft({_id}))
+    }
 
 
     return (
@@ -19,7 +26,7 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
                     <button>View details</button>
                 </Link>
 
-                <button>Delete case</button>
+                <button onClick={onDeleteTheft}>Delete case</button>
             </li>
 
         </>
