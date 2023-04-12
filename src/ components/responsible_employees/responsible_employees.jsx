@@ -9,7 +9,7 @@ function Employees() {
     const resEmployees = useSelector((state) => state.bicycles.responsibleEmployees)
 
     return (
-        <div>
+        <div className={css.wrapper}>
             <nav>
                 {resEmployees.map((employee) => (
                 <Link

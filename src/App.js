@@ -12,6 +12,7 @@ import Registration from "./ components/registration/registration";
 import Authorization from "./ components/authorization/authorization";
 import ReportATheft from "./ components/report_a_theft/report_a_theft";
 import SingleTheftsPage from "./ components/single_thefts_page/single_thefts_page";
+import TheftEditPage from "./ components/theft_edit_page/theft_edit_page";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/authorization" element={<Authorization/>}/>
                 <Route path="/registration" element={<Registration/>}/>
                 <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
+                <Route path="/thefts/:_Id/edit" element={<TheftEditPage />} />
                 <Route
                     path="*"
                     element={

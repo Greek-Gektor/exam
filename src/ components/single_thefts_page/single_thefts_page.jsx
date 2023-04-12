@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import css from './single_thefts_page.module.css'
 import {useSelector, useDispatch} from 'react-redux'
-import { useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import { getSingleTheft} from "../../storage/counterSlise";
 
 
@@ -24,6 +24,9 @@ function SingleTheftsPage() {
     return (
         <section className={css.wrapper}>
         <div>{theftItem._id}</div>
+            <Link to={`/thefts/${_Id}/edit`} >
+                <button>Edit Theft</button>
+            </Link>
 
         </section>
 

@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MDE0MDUwNSwiZXhwIjoxNjgwNzQ1MzA1fQ.-jvY8U4IN0eS-Cyvt0FDBWDWWorLq6ohMwn2NLHJelU"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MTMxNTQzNiwiZXhwIjoxNjgxOTIwMjM2fQ.bfEhAIhjp-q8rdfQbbN17m3XAgE7cn2X6yGY51e4db4"))
 
 export const regNewOfficer = createAsyncThunk(
     'bicycles/regNewOfficer',
@@ -198,6 +198,7 @@ export const getSingleTheft = createAsyncThunk(
             }
 
             const data = await response.json();
+            console.log(data)
             setTheftItem(data.data)
             return data;
 
@@ -210,7 +211,7 @@ export const getSingleTheft = createAsyncThunk(
 
 export const deleteTheft = createAsyncThunk(
     'bicycles/deleteTheft',
-    async function ({_id}, {rejectWithValue, dispatch}) {
+    async function ({_id}, {rejectWithValue}) {
         try {
             const id = _id
 
@@ -221,6 +222,41 @@ export const deleteTheft = createAsyncThunk(
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 }
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t delete case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const editTheft = createAsyncThunk(
+    'bicycles/editTheft',
+    async function ({theftItem}, {rejectWithValue}) {
+        try {
+            const theftCase = {
+                licenseNumber: theftItem.licenseNumber,
+            };
+
+            const id = theftItem._id
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify(theftCase)
             });
 
             if (!response.ok) {
