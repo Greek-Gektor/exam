@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import css from './theft_edit_page.module.css'
+import css from './theft_edit_page_clone.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link, useParams} from 'react-router-dom'
 import { editTheft, getSingleTheft} from "../../storage/counterSlise";
 
 
-function TheftEditPage() {
+function TheftEditPageClone() {
 
     const { _Id } = useParams();
 
@@ -57,4 +57,4 @@ function TheftEditPage() {
     );
 }
 
-export default TheftEditPage;
+export default TheftEditPageClone;

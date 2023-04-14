@@ -86,6 +86,8 @@ export const CreateCaseFromOfficer = createAsyncThunk(
 
             };
 
+            console.log(CaseFromOfficer)
+
             const token = JSON.parse(window.localStorage.getItem('token'))
 
             const response = await fetch('https://sf-final-project-be.herokuapp.com/api/cases/', {
@@ -103,6 +105,7 @@ export const CreateCaseFromOfficer = createAsyncThunk(
             }
 
             const data = await response.json();
+            console.log(data)
 
 
         } catch (error) {

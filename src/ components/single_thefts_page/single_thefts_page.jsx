@@ -23,7 +23,7 @@ function SingleTheftsPage() {
 
     return (
         <section className={css.wrapper}>
-        <div>{theftItem._id}</div>
+        <div>{theftItem.licenseNumber}</div>
             <Link to={`/thefts/${_Id}/edit`} >
                 <button>Edit Theft</button>
             </Link>
