@@ -31,8 +31,8 @@ function App() {
                 <Route path="/authorization" element={<Authorization/>}/>
                 <Route path="/registration" element={<Registration/>}/>
                 <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
-                {/*<Route path="/thefts/:_Id/edit" element={<TheftEditPage />} />*/}
-                <Route path="/thefts/:_Id/edit" element={<TheftEditPageClone />} />
+                <Route path="/thefts/:_Id/edit" element={<TheftEditPage />} />
+                {/*<Route path="/thefts/:_Id/edit" element={<TheftEditPageClone />} />*/}
                 <Route
                     path="*"
                     element={

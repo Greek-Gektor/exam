@@ -212,6 +212,40 @@ export const getSingleTheft = createAsyncThunk(
     }
 );
 
+export const getSingleTheftClone = createAsyncThunk(
+    'bicycles/getSingleTheftClone',
+    async function ({_Id,setTheftItem}, {rejectWithValue, dispatch}) {
+        try {
+            const id = _Id
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Can\'t get case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+            setTheftItem(data.data)
+            return data;
+
+
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 export const deleteTheft = createAsyncThunk(
     'bicycles/deleteTheft',
     async function ({_id}, {rejectWithValue}) {
@@ -260,6 +294,42 @@ export const editTheft = createAsyncThunk(
                     'Authorization': 'Bearer ' + token,
                 },
                 body: JSON.stringify(theftCase)
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t delete case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const editTheftClone = createAsyncThunk(
+    'bicycles/editTheftClone',
+    async function ({data,id}, {rejectWithValue}) {
+        try {
+            /*const theftCase = {
+                licenseNumber: data.licenseNumber,
+            };*/
+            console.log(data)
+            console.log(id)
+            const id = id
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify(data)
             });
 
             if (!response.ok) {
@@ -358,6 +428,14 @@ export const bicyclesSlice = createSlice({
                 console.log(state.theftReports)
             },
             [deleteTheft.rejected]: setError,
+            [editTheftClone.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [editTheftClone.fulfilled]: (state) => {
+                state.status = 'resolved';
+            },
+            [editTheftClone.rejected]: setError,
 
 
         }
