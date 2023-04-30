@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import css from './single_thefts_page.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link, useParams} from 'react-router-dom'
-import {getSingleTheft} from "../../storage/counterSlise";
+import {formatDate, getSingleTheft} from "../../storage/counterSlise";
 
 
 function SingleTheftsPage() {
@@ -21,7 +21,11 @@ function SingleTheftsPage() {
     }, []);
 
     const theftsDate = new Date(theftItem.date);
-    const uiDate = theftsDate.toLocaleDateString('en-GB')
+    /*const uiDate = theftsDate.toLocaleDateString('en-GB')*/
+    const uiDate = formatDate(new Date(theftItem.date))
+
+
+
 
 
 
@@ -31,7 +35,7 @@ function SingleTheftsPage() {
                 <div>{theftItem.ownerFullName}</div>
                 <div>{theftItem.licenseNumber}</div>
                 <div>{theftItem.color}</div>
-                <div>{theftItem.status}</div>
+                <div>{theftItem.status==="in_progress"?"in progress":theftItem.status}</div>
                 <div>{theftItem.type}</div>
                 <div>{theftItem.description}</div>
                 <div>{theftItem.resolution}</div>

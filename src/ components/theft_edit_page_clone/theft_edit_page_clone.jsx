@@ -31,7 +31,7 @@ function TheftEditPageClone() {
 
     const onSubmit = async (data) => {
         const id = theftItem._id
-        await dispatch(editTheftClone({data, id}))
+        await dispatch(editTheftClone({theftItem,data, id}))
     }
 
 
@@ -41,6 +41,12 @@ function TheftEditPageClone() {
             <h2>Edit Theft Clone</h2>
             <form className={css.formWrapper} onSubmit={handleSubmit(onSubmit)}>
                 <div className={css.formDataWrapper}>
+                    <label htmlFor="ownerFullName">Owner Full Name:</label>
+                    <input className={css.formInput}
+                           defaultValue={theftItem.ownerFullName}
+                           {...register("ownerFullName")}
+                           placeholder="Owner Full Name"
+                    />
                     <label htmlFor="licenseNumber">LicenseNumber:</label>
                     <input className={css.formInput}
                            defaultValue={theftItem.licenseNumber}
@@ -57,16 +63,16 @@ function TheftEditPageClone() {
                     <select
                         className={css.formInput}
                         {...register("status")}>
-                        <option value="">{theftItem.status}</option>
+                        <option value={theftItem.status}>{theftItem.status==="in_progress" ? "in progress": theftItem.status}</option>
                         {theftItem.status !== "new" && <option value="new">new</option>}
-                        {theftItem.status !== "in progress" && <option value="in progress">in progress</option>}
+                        {theftItem.status !== "in_progress" && <option value="in_progress">in progress</option>}
                         {theftItem.status !== "done" && <option value="done">done</option>}
                     </select>
                     <label htmlFor="type">Type:</label>
                     <select
                         className={css.formInput}
                         {...register("type")}>
-                        <option value="">{theftItem.type}</option>
+                        <option value={theftItem.type}>{theftItem.type}</option>
                         {theftItem.type !== "general" && <option value="general">general</option>}
                         {theftItem.type !== "sport" && <option value="sport">sport</option>}
                     </select>
@@ -79,7 +85,7 @@ function TheftEditPageClone() {
                     <label htmlFor="date">Date:</label>
                     <input className={css.formInput}
                            {...register("date")}
-                           placeholder="DD-MM-YYYY"
+                           placeholder="YYYY-MM-DD"
                     />
                 </div>
                 <input className={css.formInput} type="submit"/>

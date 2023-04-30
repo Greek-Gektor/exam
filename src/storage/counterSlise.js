@@ -1,17 +1,17 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MTkzMTA2OCwiZXhwIjoxNjgyNTM1ODY4fQ.VVIOoZMepuYlE5g_eOPoRs-_cgw18fIfi3EzlEg7mPM"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4Mjg1MjkyNSwiZXhwIjoxNjgzNDU3NzI1fQ._aUKelTCHRZ5nFy3LBPR1_LLg26Z1OC7O7HONTSJ2w4"))
 
 
 function padTo2Digits(num) {
     return num.toString().padStart(2, '0');
 }
 
-function formatDate(date) {
+export function formatDate(date) {
     return [
-        padTo2Digits(date.getDate()),
-        padTo2Digits(date.getMonth() + 1),
         date.getFullYear(),
+        padTo2Digits(date.getMonth() + 1),
+        padTo2Digits(date.getDate()),
     ].join('-');
 }
 
@@ -332,10 +332,18 @@ export const editTheft = createAsyncThunk(
 
 export const editTheftClone = createAsyncThunk(
     'bicycles/editTheftClone',
-    async function ({data, id}, {rejectWithValue}) {
+    async function ({theftItem,data, id}, {rejectWithValue}) {
         try {
+
             const update ={
+                ownerFullName: data.ownerFullName,
                 licenseNumber: data.licenseNumber,
+                color:data.color,
+                status:data.status,
+                type:data.type,
+                description:data.description,
+                date:data.date
+
             }
 
             const token = JSON.parse(window.localStorage.getItem('token'))
@@ -353,7 +361,8 @@ export const editTheftClone = createAsyncThunk(
                 throw new Error('Can\'t edit case. Server error.');
             }
 
-            /*const data = await response.json();*/
+            /*const data = await response.json();
+            console.log(data)*/
 
 
 

@@ -2,7 +2,7 @@ import React from 'react';
 import css from './all_thefts_item.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link} from "react-router-dom";
-import {deleteTheft, } from "../../storage/counterSlise";
+import {deleteTheft, formatDate,} from "../../storage/counterSlise";
 
 
 function AllTheftsItem({color, description, licenseNumber, ownerFullName, status, type,_id,date}) {
@@ -13,8 +13,12 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
         await dispatch(deleteTheft({_id}))
     }
 
+/*    const theftsDate = new Date(date);
+    const uiDate = theftsDate.toLocaleDateString('en-GB')*/
+
     const theftsDate = new Date(date);
-    const uiDate = theftsDate.toLocaleDateString('en-GB')
+    /*const uiDate = theftsDate.toLocaleDateString('en-GB')*/
+    const uiDate = formatDate(new Date(theftsDate))
 
 
 
@@ -26,7 +30,7 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
                 <span>{type}</span>
                 <span>{color}</span>
                 <span>{licenseNumber}</span>
-                <span>{status}</span>
+                <span>{status=== "in_progress"?"in progress":status}</span>
                 <span>{description}</span>
                 <span>{uiDate}</span>
                 <Link to={`/thefts/${_id}`} >
