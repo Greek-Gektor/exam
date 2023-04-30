@@ -4,3 +4,17 @@
     background-color: #B69DFA;
     flex-grow: 1;
 }
+
+.formDataWrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.formWrapper{
+    margin: 20px 0 0 20px;
+}
+
+.formInput{
+    margin: 5px 0 0 0;
+    width: 200px;
+}

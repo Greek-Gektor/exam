@@ -17,8 +17,6 @@ function ReportATheft() {
             type: '',
             color: '',
             date: '',
-            officerID: '',
-            clientID: '',
             description: ''
         }
     )
@@ -30,8 +28,6 @@ function ReportATheft() {
     const onSelectChanged = (e) => setTheftCase(theftCase => ({...theftCase, type: e.target.value}))
     const onColorChanged = (e) => setTheftCase(theftCase => ({...theftCase, color: e.target.value}))
     const onDateChanged = (e) => setTheftCase(theftCase => ({...theftCase, date: e.target.value}))
-    const onOfficerIDChanged = (e) => setTheftCase(theftCase => ({...theftCase, officerID: e.target.value}))
-    const onClientIdChanged = (e) => setTheftCase(theftCase => ({...theftCase, clientID: e.target.value}))
     const onDescriptionChanged = (e) => setTheftCase(theftCase => ({...theftCase, description: e.target.value}))
 
 
@@ -42,8 +38,6 @@ function ReportATheft() {
             type: theftCase.type,
             color: theftCase.color,
             date: theftCase.date,
-            officerID: theftCase.officerID,
-            clientID: theftCase.clientID,
             description: theftCase.description
             }
         )
@@ -54,8 +48,6 @@ function ReportATheft() {
             type: '',
             color: '',
             date: '',
-            officerID: '',
-            clientID: '',
             description: ''
         })
     }
@@ -67,8 +59,6 @@ function ReportATheft() {
                 type: theftCase.type,
                 color: theftCase.color,
                 date: theftCase.date,
-                officerID: theftCase.officerID,
-                clientID: theftCase.clientID,
                 description: theftCase.description
             }
         )
@@ -79,8 +69,6 @@ function ReportATheft() {
             type: '',
             color: '',
             date: '',
-            officerID: '',
-            clientID: '',
             description: ''
         })
     }
@@ -130,28 +118,6 @@ function ReportATheft() {
                     value={theftCase.date}
                     onChange={onDateChanged}
                 />
-                {authStatus === true &&
-                <>
-                    <label htmlFor="date">OfficerID:</label>
-                    <input
-                        type="text"
-                        id="officerID"
-                        name="officerID"
-                        value={theftCase.officerID}
-                        onChange={onOfficerIDChanged}
-                    />
-                </>}
-                {authStatus === false &&
-                <>
-                    <label htmlFor="date">ClientID:</label>
-                    <input
-                        type="text"
-                        id="clientId"
-                        name="clientId"
-                        value={theftCase.clientID}
-                        onChange={onClientIdChanged}
-                    />
-                </>}
                 <label htmlFor="date">Description:</label>
                 <input
                     type="text"

@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import css from './single_thefts_page.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link, useParams} from 'react-router-dom'
-import { getSingleTheft} from "../../storage/counterSlise";
+import {getSingleTheft} from "../../storage/counterSlise";
 
 
 function SingleTheftsPage() {
 
-    const { _Id } = useParams();
+    const {_Id} = useParams();
 
 
     const dispatch = useDispatch()
@@ -15,19 +15,31 @@ function SingleTheftsPage() {
     const [theftItem, setTheftItem] = useState('');
 
 
-
-    useEffect(() =>  {
-         dispatch(getSingleTheft({_Id,setTheftItem}))
+    useEffect(() => {
+        dispatch(getSingleTheft({_Id, setTheftItem}))
 
     }, []);
 
+    const theftsDate = new Date(theftItem.date);
+    const uiDate = theftsDate.toLocaleDateString('en-GB')
+
+
+
     return (
         <section className={css.wrapper}>
-        <div>{theftItem.licenseNumber}</div>
-            <Link to={`/thefts/${_Id}/edit`} >
-                <button>Edit Theft</button>
-            </Link>
-
+            <div className={css.info}>
+                <div>{theftItem.ownerFullName}</div>
+                <div>{theftItem.licenseNumber}</div>
+                <div>{theftItem.color}</div>
+                <div>{theftItem.status}</div>
+                <div>{theftItem.type}</div>
+                <div>{theftItem.description}</div>
+                <div>{theftItem.resolution}</div>
+                <div>{uiDate}</div>
+                <Link to={`/thefts/${_Id}/edit`}>
+                    <button>Edit Theft</button>
+                </Link>
+            </div>
         </section>
 
     );

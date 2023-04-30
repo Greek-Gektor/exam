@@ -1,6 +1,23 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MTMxNTQzNiwiZXhwIjoxNjgxOTIwMjM2fQ.bfEhAIhjp-q8rdfQbbN17m3XAgE7cn2X6yGY51e4db4"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4MTkzMTA2OCwiZXhwIjoxNjgyNTM1ODY4fQ.VVIOoZMepuYlE5g_eOPoRs-_cgw18fIfi3EzlEg7mPM"))
+
+
+function padTo2Digits(num) {
+    return num.toString().padStart(2, '0');
+}
+
+function formatDate(date) {
+    return [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+    ].join('-');
+}
+
+
+
+
 
 export const regNewOfficer = createAsyncThunk(
     'bicycles/regNewOfficer',
@@ -75,18 +92,16 @@ export const CreateCaseFromOfficer = createAsyncThunk(
     'bicycles/createCaseFromOfficer',
     async function ({theftCase}, {rejectWithValue, dispatch}) {
         try {
+
             const CaseFromOfficer = {
                 ownerFullName: theftCase.ownerFullName,
                 licenseNumber: theftCase.licenseNumber,
                 type: theftCase.type,
                 color: theftCase.color,
                 date: theftCase.date,
-                officerID: theftCase.officerID,
                 description: theftCase.description
 
             };
-
-            console.log(CaseFromOfficer)
 
             const token = JSON.parse(window.localStorage.getItem('token'))
 
@@ -106,6 +121,8 @@ export const CreateCaseFromOfficer = createAsyncThunk(
 
             const data = await response.json();
             console.log(data)
+            console.log(data.data.date)
+
 
 
         } catch (error) {
@@ -154,7 +171,7 @@ export const CreateCaseFromClient = createAsyncThunk(
 
 export const fetchListOfThefts = createAsyncThunk(
     'bicycles/fetchListOfThefts',
-    async function(_, {rejectWithValue}) {
+    async function (_, {rejectWithValue}) {
         try {
 
             const token = JSON.parse(window.localStorage.getItem('token'))
@@ -180,9 +197,42 @@ export const fetchListOfThefts = createAsyncThunk(
     }
 );
 
+/*export const getSingleTheft = createAsyncThunk(
+    'bicycles/getSingleTheft',
+    async function ({_Id, setTheftItem}, {rejectWithValue, dispatch}) {
+        try {
+            const id = _Id
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Can\'t get case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+            setTheftItem(data.data)
+
+            return data;
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);*/
+
 export const getSingleTheft = createAsyncThunk(
     'bicycles/getSingleTheft',
-    async function ({_Id,setTheftItem}, {rejectWithValue, dispatch}) {
+    async function ({_Id, setTheftItem,reset}, {rejectWithValue, dispatch}) {
         try {
             const id = _Id
             const token = JSON.parse(window.localStorage.getItem('token'))
@@ -201,8 +251,11 @@ export const getSingleTheft = createAsyncThunk(
             }
 
             const data = await response.json();
+
             console.log(data)
+
             setTheftItem(data.data)
+            reset({date:formatDate(new Date(data.data.date))})
             return data;
 
 
@@ -212,39 +265,6 @@ export const getSingleTheft = createAsyncThunk(
     }
 );
 
-export const getSingleTheftClone = createAsyncThunk(
-    'bicycles/getSingleTheftClone',
-    async function ({_Id,setTheftItem}, {rejectWithValue, dispatch}) {
-        try {
-            const id = _Id
-            const token = JSON.parse(window.localStorage.getItem('token'))
-
-
-            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/cases/${id}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                }
-            });
-
-
-            if (!response.ok) {
-                throw new Error('Can\'t get case. Server error.');
-            }
-
-            const data = await response.json();
-            console.log(data)
-            setTheftItem(data.data)
-            return data;
-
-
-
-
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
 
 export const deleteTheft = createAsyncThunk(
     'bicycles/deleteTheft',
@@ -312,14 +332,11 @@ export const editTheft = createAsyncThunk(
 
 export const editTheftClone = createAsyncThunk(
     'bicycles/editTheftClone',
-    async function ({data,id}, {rejectWithValue}) {
+    async function ({data, id}, {rejectWithValue}) {
         try {
-            /*const theftCase = {
+            const update ={
                 licenseNumber: data.licenseNumber,
-            };*/
-            console.log(data)
-            console.log(id)
-            const id = id
+            }
 
             const token = JSON.parse(window.localStorage.getItem('token'))
 
@@ -329,18 +346,19 @@ export const editTheftClone = createAsyncThunk(
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token,
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(update)
             });
 
             if (!response.ok) {
-                throw new Error('Can\'t delete case. Server error.');
+                throw new Error('Can\'t edit case. Server error.');
             }
 
-            const data = await response.json();
-            console.log(data)
+            /*const data = await response.json();*/
+
 
 
         } catch (error) {
+            console.log(error)
             return rejectWithValue(error.message);
         }
     }
@@ -353,18 +371,18 @@ const setError = (state, action) => {
 }
 
 
-
 const initialState = {
-    
+
     status: null,
     error: null,
     value: 0,
-    token:'',
+    token: '',
     authStatus: true,
     authOfficerNow: '',
     responsibleEmployees: [],
     theftReports: [],
-    singleTheftReport:{}
+    singleTheftReport: {},
+    defaultValueOfDate:{}
 
 }
 
@@ -404,25 +422,28 @@ export const bicyclesSlice = createSlice({
                 state.status = 'loading';
                 state.error = null;
             },
-            [fetchListOfThefts.fulfilled]: (state,action) => {
+            [fetchListOfThefts.fulfilled]: (state, action) => {
                 state.status = 'resolved';
                 state.theftReports = action.payload.data;
             },
             [fetchListOfThefts.rejected]: setError,
-            [getSingleTheft.pending]: (state) => {
+            [getSingleTheft.pending]: (state,action) => {
                 state.status = 'loading';
                 state.error = null;
             },
-            [getSingleTheft.fulfilled]: (state,action) => {
+            [getSingleTheft.fulfilled]: (state, action) => {
                 state.status = 'resolved';
                 state.singleTheftReport = action.payload.data;
+                state.defaultValueOfDate = formatDate(new Date(action.payload.data.date))
+
+
             },
             [getSingleTheft.rejected]: setError,
             [deleteTheft.pending]: (state) => {
                 state.status = 'loading';
                 state.error = null;
             },
-            [deleteTheft.fulfilled]: (state,action,) => {
+            [deleteTheft.fulfilled]: (state, action,) => {
                 state.status = 'resolved';
                 state.theftReports = state.theftReports.filter(theft => theft.id !== action.payload);
                 console.log(state.theftReports)
