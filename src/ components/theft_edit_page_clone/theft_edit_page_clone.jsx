@@ -104,9 +104,17 @@ function TheftEditPageClone() {
                     />
                     <label htmlFor="date">Date:</label>
                     <input className={css.formInput}
-                           {...register("date")}
+                           {...register("date",{
+                               required: "this is required",
+                               pattern: {
+                               value: /\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/,
+                               message: "Invalid date format,enter the date in the format YYYY-MM-DD"
+                           }
+                           })}
                            placeholder="YYYY-MM-DD"
                     />
+                    {errors.date && <p>{errors.date.message}</p>}
+
                 </div>
                 <input className={css.formInput} type="submit"/>
             </form>
