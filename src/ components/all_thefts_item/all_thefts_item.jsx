@@ -27,9 +27,9 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
         <>
             <li>
                 <span>{ownerFullName}</span>
-                <span>{type}</span>
-                <span>{color}</span>
                 <span>{licenseNumber}</span>
+                <span>{color}</span>
+                <span>{type}</span>
                 <span>{status=== "in_progress"?"in progress":status}</span>
                 <span>{description}</span>
                 <span>{uiDate}</span>
