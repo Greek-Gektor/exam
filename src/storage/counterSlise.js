@@ -1,5 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
+/*const uniId = "682f42d6-8751-11ed-a1eb-0242ac120002"*/
+
 window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4Mjg1MjkyNSwiZXhwIjoxNjgzNDU3NzI1fQ._aUKelTCHRZ5nFy3LBPR1_LLg26Z1OC7O7HONTSJ2w4"))
 
 
@@ -373,6 +375,34 @@ export const editTheftClone = createAsyncThunk(
     }
 );
 
+export const fetchListOfOfficers = createAsyncThunk(
+    'bicycles/fetchListOfOfficers',
+    async function (_, {rejectWithValue}) {
+        try {
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch('https://sf-final-project-be.herokuapp.com/api/officers/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Server Error!');
+            }
+
+            const data = await response.json();
+            console.log(data)
+
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 
 const setError = (state, action) => {
     state.status = 'rejected';
@@ -388,7 +418,7 @@ const initialState = {
     token: '',
     authStatus: true,
     authOfficerNow: '',
-    responsibleEmployees: [],
+    responsibleOfficers: [],
     theftReports: [],
     singleTheftReport: {},
     defaultValueOfDate:{}
@@ -399,9 +429,9 @@ export const bicyclesSlice = createSlice({
         name: 'bicycles',
         initialState,
         reducers: {
-            responsibleEmployeesAdded(state, action) {
+            /*responsibleEmployeesAdded(state, action) {
                 state.responsibleEmployees.push(action.payload)
-            },
+            },*/
             authOfficerReducer(state, action) {
                 state.authStatus = true
                 state.authOfficerNow = action.payload.data.user.email

@@ -1,8 +1,10 @@
-.title{
-    color: black;
-}
+
+
 
 .wrapper{
     background-color: #B69DFA;
     flex-grow: 1;
+}
+ul {
+    list-style: none;
 }

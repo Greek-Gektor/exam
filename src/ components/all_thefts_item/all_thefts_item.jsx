@@ -13,11 +13,8 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
         await dispatch(deleteTheft({_id}))
     }
 
-/*    const theftsDate = new Date(date);
-    const uiDate = theftsDate.toLocaleDateString('en-GB')*/
 
     const theftsDate = new Date(date);
-    /*const uiDate = theftsDate.toLocaleDateString('en-GB')*/
     const uiDate = formatDate(new Date(theftsDate))
 
 
