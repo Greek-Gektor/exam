@@ -464,6 +464,7 @@ export const bicyclesSlice = createSlice({
             [fetchListOfThefts.fulfilled]: (state, action) => {
                 state.status = 'resolved';
                 state.theftReports = action.payload.data;
+                console.log(action.payload.data)
             },
             [fetchListOfThefts.rejected]: setError,
             [getSingleTheft.pending]: (state,action) => {
@@ -496,6 +497,18 @@ export const bicyclesSlice = createSlice({
                 state.status = 'resolved';
             },
             [editTheftClone.rejected]: setError,
+            [fetchListOfOfficers.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [fetchListOfOfficers.fulfilled]: (state, action) => {
+                state.status = 'resolved';
+                state.responsibleOfficers = action.payload.officers;
+                console.log(action.payload.officers)
+                console.log(state.responsibleOfficers.officers)
+
+            },
+            [fetchListOfOfficers.rejected]: setError,
 
 
         }

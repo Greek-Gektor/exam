@@ -6,7 +6,7 @@ function Header() {
     return (
         <nav className={css.wrapper}>
             <Link to="/">Главная страница</Link>
-            <Link to="/responsible_employees">Ответственные сотрудники</Link>
+            <Link to="/responsible_officers">Ответственные сотрудники</Link>
             <Link to="/report_a_theft">Сообщить о краже</Link>
             <Link to="/all_thefts">Список краж</Link>
             <Link to="/authorization">Авторизация</Link>

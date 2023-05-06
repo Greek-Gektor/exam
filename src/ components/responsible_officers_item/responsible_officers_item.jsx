@@ -3,28 +3,36 @@ import React from 'react';
 import {useParams, Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import css from './responsible_officers_item.module.css'
-import {deleteTheft, formatDate} from "../../storage/counterSlise";
+import { } from "../../storage/counterSlise";
 
 
 
-function ResponsibleOfficersItem() {
+function ResponsibleOfficersItem({_id,email,firstName,lastName,approved}) {
+
 
     const dispatch = useDispatch()
 
-    const onDeleteTheft = async () => {
-        await dispatch(deleteTheft({_id}))
-    }
-
-
-    const theftsDate = new Date(date);
-    const uiDate = formatDate(new Date(theftsDate))
+/*    const onDeleteOfficer = async () => {
+        await dispatch(deleteOfficer({_id}))
+    }*/
 
 
 
     return (
-        <div>
-            {employee.firstName}
-        </div>
+        <>
+            <li>
+                <span>{firstName}</span>
+                <span>{lastName}</span>
+                <span>{approved ? "approved officer":"not approved officer"}</span>
+
+                <Link to={`/thefts/${_id}`} >
+                    <button>View details</button>
+                </Link>
+
+                <button /*onClick={onDeleteOfficer}*/>Delete officer</button>
+            </li>
+
+        </>
     );
 }
 
