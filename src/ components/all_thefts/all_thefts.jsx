@@ -9,6 +9,7 @@ function AllThefts() {
 
     const thefts = useSelector(state => state.bicycles.theftReports)
     const dispatch = useDispatch();
+    console.log(thefts)
 
     useEffect( () => {
         dispatch(fetchListOfThefts());

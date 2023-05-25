@@ -20,7 +20,7 @@ function SingleTheftsPage() {
 
     }, []);
 
-    const theftsDate = new Date(theftItem.date);
+ /*   const theftsDate = new Date(theftItem.date);*/
     /*const uiDate = theftsDate.toLocaleDateString('en-GB')*/
     const uiDate = formatDate(new Date(theftItem.date))
 

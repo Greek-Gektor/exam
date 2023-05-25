@@ -22,10 +22,11 @@ function ResponsibleOfficersItem({_id,email,firstName,lastName,approved}) {
         <>
             <li>
                 <span>{firstName}</span>
+                <span>{_id}</span>
                 <span>{lastName}</span>
                 <span>{approved ? "approved officer":"not approved officer"}</span>
 
-                <Link to={`/thefts/${_id}`} >
+                <Link to={`/responsible_officers/${_id}`} >
                     <button>View details</button>
                 </Link>
 

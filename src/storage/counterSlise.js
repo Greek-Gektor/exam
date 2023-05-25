@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 /*const uniId = "682f42d6-8751-11ed-a1eb-0242ac120002"*/
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4Mjg1MjkyNSwiZXhwIjoxNjgzNDU3NzI1fQ._aUKelTCHRZ5nFy3LBPR1_LLg26Z1OC7O7HONTSJ2w4"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4NTAyMTQ1NCwiZXhwIjoxNjg1NjI2MjU0fQ.HQu6CVIdstAmULbVhc5W4vTFmm3o9alkJfp80Jr-PHM"))
 
 
 function padTo2Digits(num) {
@@ -396,7 +396,43 @@ export const fetchListOfOfficers = createAsyncThunk(
             const data = await response.json();
             console.log(data)
 
-            return data;
+            return data.officers;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getSingleOfficer = createAsyncThunk(
+    'bicycles/getSingleOfficer',
+    async function ({_Id, setOfficerItem}, {rejectWithValue, dispatch}) {
+        try {
+            const id = _Id
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/officers/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Can\'t get case. Server error.');
+            }
+
+            const data = await response.json();
+
+            console.log(data)
+
+            setOfficerItem(data.data)
+
+            return data
+
+
+
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -503,9 +539,10 @@ export const bicyclesSlice = createSlice({
             },
             [fetchListOfOfficers.fulfilled]: (state, action) => {
                 state.status = 'resolved';
-                state.responsibleOfficers = action.payload.officers;
-                console.log(action.payload.officers)
-                console.log(state.responsibleOfficers.officers)
+                state.responsibleOfficers = action.payload;
+                console.log(action.payload)
+                console.log(action.payload.data)
+                console.log(state.responsibleOfficers)
 
             },
             [fetchListOfOfficers.rejected]: setError,

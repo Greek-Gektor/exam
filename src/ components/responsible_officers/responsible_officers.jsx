@@ -10,6 +10,7 @@ function ResponsibleOfficers() {
 
     const responsibleOfficers = useSelector((state) => state.bicycles.responsibleOfficers)
     const dispatch = useDispatch();
+    console.log(responsibleOfficers)
 
     useEffect( () => {
         dispatch(fetchListOfOfficers());

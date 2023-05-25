@@ -13,7 +13,7 @@ import SingleTheftsPage from "./ components/single_thefts_page/single_thefts_pag
 import TheftEditPage from "./ components/theft_edit_page/theft_edit_page";
 import TheftEditPageClone from "./ components/theft_edit_page_clone/theft_edit_page_clone";
 import ResponsibleOfficers from "./ components/responsible_officers/responsible_officers";
-import ResponsibleOfficerDetails from "./ components/responsible_officers_item/responsible_officers_item";
+import SingleOfficerPage from "./ components/single_officer_page/single_officer_page";
 
 
 function App() {
@@ -23,14 +23,15 @@ function App() {
             <Routes>
                 <Route path="/" element={<Main/>}/>
                 <Route path="responsible_officers" element={<ResponsibleOfficers/>}/>
-                <Route path="responsible_officers/:officerId" element={<ResponsibleOfficerDetails/>}/>
+                <Route path="responsible_officers/:_Id" element={<SingleOfficerPage/>}/>
                 <Route path="/report_a_theft" element={<ReportATheft/>}/>
                 <Route path="/all_thefts" element={<AllThefts/>}/>
+                <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
+                <Route path="/thefts/:_Id/edit" element={<TheftEditPageClone />} />
                 <Route path="/authorization" element={<Authorization/>}/>
                 <Route path="/registration" element={<Registration/>}/>
-                <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
+
                 {/*<Route path="/thefts/:_Id/edit" element={<TheftEditPage />} />*/}
-                <Route path="/thefts/:_Id/edit" element={<TheftEditPageClone />} />
                 <Route
                     path="*"
                     element={
