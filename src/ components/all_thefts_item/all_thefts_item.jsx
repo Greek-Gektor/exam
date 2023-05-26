@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import css from './all_thefts_item.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link} from "react-router-dom";
-import {deleteTheft, formatDate,} from "../../storage/counterSlise";
+import {deleteTheft, fetchListOfThefts, formatDate,} from "../../storage/counterSlise";
 
 
 function AllTheftsItem({color, description, licenseNumber, ownerFullName, status, type,_id,date}) {
@@ -10,14 +10,14 @@ function AllTheftsItem({color, description, licenseNumber, ownerFullName, status
     const dispatch = useDispatch()
 
     const onDeleteTheft = async () => {
-        await dispatch(deleteTheft({_id}))
+        await dispatch(deleteTheft({_id}));
+        await  dispatch(fetchListOfThefts());
     }
+
 
 
     const theftsDate = new Date(date);
     const uiDate = formatDate(new Date(theftsDate))
-
-
 
 
     return (

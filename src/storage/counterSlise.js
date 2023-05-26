@@ -431,6 +431,33 @@ export const getSingleOfficer = createAsyncThunk(
 
             return data
 
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const deleteOfficer = createAsyncThunk(
+    'bicycles/deleteOfficer',
+    async function ({_id}, {rejectWithValue}) {
+        try {
+            const id = _id
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/officers/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t delete officer. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
 
 
         } catch (error) {

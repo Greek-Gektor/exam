@@ -32,14 +32,9 @@ function SingleOfficerPage() {
     return (
         <section className={css.wrapper}>
             <div className={css.info}>
-                <div>{officerItem._id}</div>
-                {/*<div>{theftItem.licenseNumber}</div>
-                <div>{theftItem.color}</div>
-                <div>{theftItem.status==="in_progress"?"in progress":theftItem.status}</div>
-                <div>{theftItem.type}</div>
-                <div>{theftItem.description}</div>
-                <div>{theftItem.resolution}</div>
-                <div>{uiDate}</div>*/}
+                <div>{officerItem.firstName}</div>
+                <div>{officerItem.lastName}</div>
+
                {/* <Link to={`/thefts/${_Id}/edit`}>
                     <button>Edit Theft</button>
                 </Link>*/}

@@ -3,7 +3,7 @@ import React from 'react';
 import {useParams, Link} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import css from './responsible_officers_item.module.css'
-import { } from "../../storage/counterSlise";
+import {deleteOfficer} from "../../storage/counterSlise";
 
 
 
@@ -12,9 +12,9 @@ function ResponsibleOfficersItem({_id,email,firstName,lastName,approved}) {
 
     const dispatch = useDispatch()
 
-/*    const onDeleteOfficer = async () => {
+    const onDeleteOfficer = async () => {
         await dispatch(deleteOfficer({_id}))
-    }*/
+    }
 
 
 
@@ -22,15 +22,13 @@ function ResponsibleOfficersItem({_id,email,firstName,lastName,approved}) {
         <>
             <li>
                 <span>{firstName}</span>
-                <span>{_id}</span>
                 <span>{lastName}</span>
                 <span>{approved ? "approved officer":"not approved officer"}</span>
-
                 <Link to={`/responsible_officers/${_id}`} >
                     <button>View details</button>
                 </Link>
 
-                <button /*onClick={onDeleteOfficer}*/>Delete officer</button>
+                <button onClick={onDeleteOfficer}>Delete officer</button>
             </li>
 
         </>
