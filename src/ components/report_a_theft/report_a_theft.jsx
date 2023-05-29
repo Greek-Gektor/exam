@@ -1,3 +1,4 @@
+/*
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {CreateCaseFromOfficer,CreateCaseFromClient} from "../../storage/counterSlise";
@@ -145,4 +146,4 @@ function ReportATheft() {
     );
 }
 
-export default ReportATheft;
+export default ReportATheft;*/

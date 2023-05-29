@@ -90,7 +90,7 @@ export const authOfficer = createAsyncThunk(
     }
 );
 
-export const CreateCaseFromOfficer = createAsyncThunk(
+/*export const CreateCaseFromOfficer = createAsyncThunk(
     'bicycles/createCaseFromOfficer',
     async function ({theftCase}, {rejectWithValue, dispatch}) {
         try {
@@ -102,6 +102,51 @@ export const CreateCaseFromOfficer = createAsyncThunk(
                 color: theftCase.color,
                 date: theftCase.date,
                 description: theftCase.description
+
+            };
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch('https://sf-final-project-be.herokuapp.com/api/cases/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+
+                },
+                body: JSON.stringify(CaseFromOfficer)
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t create case. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+            console.log(data.data.date)
+
+
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);*/
+
+export const CreateCaseFromOfficerClone = createAsyncThunk(
+    'bicycles/CreateCaseFromOfficerClone',
+    async function ({data}, {rejectWithValue}) {
+
+        const dataTheft = data
+
+        try {
+            const CaseFromOfficer = {
+                ownerFullName: dataTheft.ownerFullName,
+                licenseNumber: dataTheft.licenseNumber,
+                type: dataTheft.type,
+                color: dataTheft.color,
+                date: dataTheft.date,
+                description: dataTheft.description
 
             };
 
@@ -334,7 +379,7 @@ export const editTheft = createAsyncThunk(
 
 export const editTheftClone = createAsyncThunk(
     'bicycles/editTheftClone',
-    async function ({theftItem,data, id}, {rejectWithValue}) {
+    async function ({data, id}, {rejectWithValue}) {
         try {
 
             const update ={
@@ -345,7 +390,6 @@ export const editTheftClone = createAsyncThunk(
                 type:data.type,
                 description:data.description,
                 date:data.date
-
             }
 
             const token = JSON.parse(window.localStorage.getItem('token'))
@@ -363,8 +407,8 @@ export const editTheftClone = createAsyncThunk(
                 throw new Error('Can\'t edit case. Server error.');
             }
 
-            /*const data = await response.json();
-            console.log(data)*/
+            /*const data = await response.json();*/
+            console.log(response)
 
 
 
@@ -520,6 +564,14 @@ export const bicyclesSlice = createSlice({
                 state.status = 'resolved';
             },
             [regNewOfficer.rejected]: setError,
+            [CreateCaseFromOfficerClone.pending]: (state) => {
+                state.status = 'loading';
+                state.error = null;
+            },
+            [CreateCaseFromOfficerClone.fulfilled]: (state) => {
+                state.status = 'resolved';
+            },
+            [CreateCaseFromOfficerClone.rejected]: setError,
             [fetchListOfThefts.pending]: (state) => {
                 state.status = 'loading';
                 state.error = null;

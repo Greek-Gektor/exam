@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import css from './theft_edit_page_clone.module.css'
 import {useSelector, useDispatch} from 'react-redux'
 import {Link, useParams,useNavigate} from 'react-router-dom'
-import {editTheft, editTheftClone, getSingleTheft} from "../../storage/counterSlise";
+import { editTheftClone, getSingleTheft} from "../../storage/counterSlise";
 import {useForm} from "react-hook-form";
 
 
@@ -35,7 +35,7 @@ function TheftEditPageClone() {
 
     const onSubmit = async (data) => {
         const id = theftItem._id
-        await dispatch(editTheftClone({theftItem, data, id}))
+        await dispatch(editTheftClone({ data, id}))
         goBack()
     }
 
@@ -82,8 +82,7 @@ function TheftEditPageClone() {
                     <select
                         className={css.formInput}
                         {...register("status")}>
-                        <option
-                            value={theftItem.status}>{theftItem.status === "in_progress" ? "in progress" : theftItem.status}</option>
+                        <option value={theftItem.status}>{theftItem.status === "in_progress" ? "in progress" : theftItem.status}</option>
                         {theftItem.status !== "new" && <option value="new">new</option>}
                         {theftItem.status !== "in_progress" && <option value="in_progress">in progress</option>}
                         {theftItem.status !== "done" && <option value="done">done</option>}

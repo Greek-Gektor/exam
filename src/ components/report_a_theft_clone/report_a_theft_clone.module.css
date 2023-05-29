@@ -1,0 +1,33 @@
+
+.wrapper{
+    background-color: #B69DFA;
+    flex-grow: 1;
+}
+.formDataWrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.reportATheftForm{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    padding: 20px;
+}
+
+.authorizationFormBtn {
+    margin: 10px 0 0 0;
+}
+h2{
+    padding: 20px;
+}
+
+.selectValue{
+    margin: 0 0 0 0;
+}
+
+.formInput{
+    margin: 5px 0 0 0;
+    width: 200px;
+}
