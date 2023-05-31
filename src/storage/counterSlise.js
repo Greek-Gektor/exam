@@ -449,7 +449,7 @@ export const fetchListOfOfficers = createAsyncThunk(
 
 export const getSingleOfficer = createAsyncThunk(
     'bicycles/getSingleOfficer',
-    async function ({_Id, setOfficerItem}, {rejectWithValue, dispatch}) {
+    async function ({_Id, setOfficerItem,setOfficerItemClone,reset}, {rejectWithValue, dispatch}) {
         try {
             const id = _Id
             const token = JSON.parse(window.localStorage.getItem('token'))
@@ -471,11 +471,57 @@ export const getSingleOfficer = createAsyncThunk(
 
             console.log(data)
 
+
+
+
             setOfficerItem(data.data)
+
+            reset({
+                approved: data.data.approved,
+            })
 
             return data
 
         } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const editOfficer = createAsyncThunk(
+    'bicycles/editOfficer',
+    async function ({data, id}, {rejectWithValue}) {
+        try {
+
+            const update ={
+                firstName: data.firstName,
+                lastName: data.lastName,
+                approved: data.approved
+            }
+            console.log(update)
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch(`https://sf-final-project-be.herokuapp.com/api/officers/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                },
+                body: JSON.stringify(update)
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t edit officer. Server error.');
+            }
+
+            /*const data = await response.json();*/
+            console.log(response)
+
+
+
+        } catch (error) {
+            console.log(error)
             return rejectWithValue(error.message);
         }
     }

@@ -1,0 +1,34 @@
+
+
+.wrapper{
+    background-color: #B69DFA;
+    flex-grow: 1;
+}
+
+.formDataWrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.formWrapper{
+    margin: 20px 0 0 20px;
+}
+
+.checkboxWrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+.formInput{
+    margin: 5px 0 0 0;
+    width: 200px;
+}
+
+p {
+    color: #bf1650;
+}
+
+p::before {
+    display: inline;
+    content: "⚠ ";
+}
