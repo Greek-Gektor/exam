@@ -16,6 +16,7 @@ import ResponsibleOfficers from "./ components/responsible_officers/responsible_
 import SingleOfficerPage from "./ components/single_officer_page/single_officer_page";
 import ReportATheftClone from "./ components/report_a_theft_clone/report_a_theft_clone";
 import OfficerEditPage from "./ components/officer_edit_page/officer_edit_page";
+import RegistrationClone from "./ components/registration_clone/registration_clone";
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
                 <Route path="/thefts/:_Id" element={<SingleTheftsPage/>}/>
                 <Route path="/thefts/:_Id/edit" element={<TheftEditPageClone />} />
                 <Route path="/authorization" element={<Authorization/>}/>
-                <Route path="/registration" element={<Registration/>}/>
+                {/*<Route path="/registration" element={<Registration/>}/>*/}
+                <Route path="/registration" element={<RegistrationClone/>}/>
 
                 {/*<Route path="/thefts/:_Id/edit" element={<TheftEditPage />} />*/}
                 <Route

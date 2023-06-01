@@ -21,7 +21,7 @@ export function formatDate(date) {
 
 
 
-export const regNewOfficer = createAsyncThunk(
+/*export const regNewOfficer = createAsyncThunk(
     'bicycles/regNewOfficer',
     async function ({officer}, {rejectWithValue, dispatch}) {
         try {
@@ -50,6 +50,43 @@ export const regNewOfficer = createAsyncThunk(
             const data = await response.json();
             await dispatch(responsibleEmployeesAdded(data));
 
+
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);*/
+
+export const regNewOfficer = createAsyncThunk(
+    'bicycles/regNewOfficer',
+    async function ({data}, {rejectWithValue}) {
+
+        const officerData = data
+
+        try {
+            const newOfficer = {
+                email: officerData.email,
+                password: officerData.password,
+                clientId: officerData.clientId,
+                firstName: officerData.firstName,
+                lastName: officerData.lastName,
+            };
+
+            const response = await fetch('https://sf-final-project-be.herokuapp.com/api/auth/sign_up', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newOfficer)
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Can\'t reg officer. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
 
         } catch (error) {
             return rejectWithValue(error.message);
@@ -471,9 +508,6 @@ export const getSingleOfficer = createAsyncThunk(
 
             console.log(data)
 
-
-
-
             setOfficerItem(data.data)
 
             reset({
@@ -481,7 +515,6 @@ export const getSingleOfficer = createAsyncThunk(
             })
 
             return data
-
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -666,7 +699,6 @@ export const bicyclesSlice = createSlice({
                 state.status = 'resolved';
                 state.responsibleOfficers = action.payload;
                 console.log(action.payload)
-                console.log(action.payload.data)
                 console.log(state.responsibleOfficers)
 
             },
