@@ -13,6 +13,11 @@
     padding: 20px;
 }
 
+.formInput{
+    margin: 5px 0 0 0;
+    width: 200px;
+}
+
 .authorizationFormBtn {
     margin: 10px 0 0 20px;
 

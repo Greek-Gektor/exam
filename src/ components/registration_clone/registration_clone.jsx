@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React  from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import { regNewOfficer} from "../../storage/counterSlise";
 import css from './registration_clone.module.css'
@@ -28,20 +28,6 @@ function RegistrationClone() {
     }
 
 
-/*
-<input className={css.formInput}
-           defaultValue={""}
-           {...register("lastName", {
-               validate: {
-                   positiveLastNameValue: (value) => value.trim().length > 0,
-               }
-           })}
-           placeholder="Last Name"
-    />
-    {errors.lastName && errors.lastName.type === "positiveLastNameValue" && (
-        <p>this is required</p>
-    )}
-*/
 
     return (
         <section className={css.wrapper}>

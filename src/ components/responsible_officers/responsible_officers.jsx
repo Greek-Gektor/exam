@@ -26,6 +26,13 @@ function ResponsibleOfficers() {
                     />
                 ))}
             </ul>
+            <div className={css.adderWrapper}>
+                <span>Create an officer:</span>
+                <Link to={`/responsible_officers/addOfficer`} >
+                    <button>Add an officer</button>
+                </Link>
+            </div>
+
         </section>
     );
 }

@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
 /*const uniId = "682f42d6-8751-11ed-a1eb-0242ac120002"*/
 
-window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4NTAyMTQ1NCwiZXhwIjoxNjg1NjI2MjU0fQ.HQu6CVIdstAmULbVhc5W4vTFmm3o9alkJfp80Jr-PHM"))
+window.localStorage.setItem('token', JSON.stringify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2ViY2MwYzNlZGY3YmNlZGFmNDk4MiIsImlhdCI6MTY4NTY0OTcxMywiZXhwIjoxNjg2MjU0NTEzfQ.2WDvZh2RB0nEDwJDuBhn5r1r9-JB2moxjliApQ58rLM"))
 
 
 function padTo2Digits(num) {
@@ -96,7 +96,9 @@ export const regNewOfficer = createAsyncThunk(
 
 export const authOfficer = createAsyncThunk(
     'bicycles/authOfficer',
-    async function ({authData}, {rejectWithValue, dispatch}) {
+    async function ({data}, {rejectWithValue, dispatch}) {
+
+        const authData = data;
         try {
             const authOfficer = {
                 email: authData.email,
@@ -478,6 +480,46 @@ export const fetchListOfOfficers = createAsyncThunk(
             console.log(data)
 
             return data.officers;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+export const createOfficer = createAsyncThunk(
+    'bicycles/createOfficer',
+    async function ({data}, {rejectWithValue}) {
+
+        const dataOfficer = data
+
+        try {
+            const officer = {
+                email: dataOfficer.email,
+                password: dataOfficer.password,
+                firstName: dataOfficer.firstName,
+                lastName: dataOfficer.lastName,
+                approved: dataOfficer.approved,
+
+            };
+
+            const token = JSON.parse(window.localStorage.getItem('token'))
+
+            const response = await fetch('https://sf-final-project-be.herokuapp.com/api/officers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+
+                },
+                body: JSON.stringify(officer)
+            });
+
+            if (!response.ok) {
+                throw new Error('Can\'t create officer. Server error.');
+            }
+
+            const data = await response.json();
+            console.log(data)
+
         } catch (error) {
             return rejectWithValue(error.message);
         }
